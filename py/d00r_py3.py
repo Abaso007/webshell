@@ -32,7 +32,7 @@ HOST=""
 # =================== funct =====
 # shell - exec command, return stdout, stderr; improvable
 def shell(cmd):
-    sh_out = os.popen(SHELL + " " + cmd).readlines()
+    sh_out = os.popen(f"{SHELL} {cmd}").readlines()
     nsh_out = ""
     for i in range(len(sh_out)):
         nsh_out += sh_out[i]

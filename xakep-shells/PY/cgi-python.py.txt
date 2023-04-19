@@ -55,12 +55,11 @@ def getform(valuelist, theform, notpresent=''):
     for field in valuelist:
         if not theform.has_key(field):
             data[field] = notpresent
+        elif type(theform[field]) == type([]):
+            values = map(lambda x: x.value, theform[field])     # allows for list type values
+            data[field] = values
         else:
-            if  type(theform[field]) != type([]):
-                data[field] = theform[field].value
-            else:
-                values = map(lambda x: x.value, theform[field])     # allows for list type values
-                data[field] = values
+            data[field] = theform[field].value
     return data
 
 

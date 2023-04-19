@@ -37,11 +37,11 @@ for i in keys:
                 temp = (
                 f'{chr(asscii_number)} = ascii:{i} ^ ascii{j} = {quote(chr(i))} ^ {quote(chr(j))}', chr(asscii_number))
                 results.append(temp)
-            elif i < 32 and j >= 32:
+            elif i < 32:
                 temp = (
                 f'{chr(asscii_number)} = ascii:{i} ^ {chr(j)} = {quote(chr(i))} ^ {quote(chr(j))}', chr(asscii_number))
                 results.append(temp)
-            elif i >= 32 and j < 32:
+            elif j < 32:
                 temp = (
                 f'{chr(asscii_number)} = {chr(i)} ^ ascii{j} = {quote(chr(i))} ^ {quote(chr(j))}', chr(asscii_number))
                 results.append(temp)

@@ -73,8 +73,18 @@ def build_webshell():
     fun1_vul = random_name(4)
     fun1_ret = random_name(4)
     fun2 = random_name(4)
-    shellc = shell.format(className,lef,parameter1,parameter2,rig,disrupt,fun1,fun1_vul,fun1_ret,fun2)
-    return shellc
+    return shell.format(
+        className,
+        lef,
+        parameter1,
+        parameter2,
+        rig,
+        disrupt,
+        fun1,
+        fun1_vul,
+        fun1_ret,
+        fun2,
+    )
 
 
 if __name__ == '__main__':
